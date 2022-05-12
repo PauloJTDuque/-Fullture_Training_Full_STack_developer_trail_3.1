@@ -1,1 +1,2 @@
-const addButton = document.getElementById("input-button")
+// 
+alert("Tá linkado")
