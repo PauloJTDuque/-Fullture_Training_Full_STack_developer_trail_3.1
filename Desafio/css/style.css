@@ -173,3 +173,6 @@ select {
     background-color: white;
     color: #1A1A1A;
 }
+.checked {
+    text-decoration: line-through;
+}
