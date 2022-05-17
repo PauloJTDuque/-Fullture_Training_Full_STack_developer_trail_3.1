@@ -35,6 +35,7 @@ if ( ok == true ){
         let quantidade = formulario.querySelector('#inputquantidade');
         let valor = formulario.querySelector('#inputvalor');
 
+        // validar informações
         let ok = validaInformacoes(produto, quantidade, valor);
         
         if ( ok ){
