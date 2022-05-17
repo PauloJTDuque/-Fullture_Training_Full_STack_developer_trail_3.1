@@ -5,7 +5,7 @@ const ok = JSON.parse(logado);
 if ( ok == true ){
 
     const dados = localStorage.getItem('consumo');
-    lista = JSON.parse(dados);
+    lista = JSON.parse(dados); //video 5
 
     const formulario = document.querySelector('form');
     const tab = document.querySelector('.tabela');
