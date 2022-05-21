@@ -1,19 +1,20 @@
 let arrayTask = []
 
 const getInputs = (event) => {
+
     event.preventDefault()
 
     let taskName = document.getElementById('task-input').value
+    arrayTask.push({taskName, status: 'Pendente'})
+    //console.log({arrayTask})
+    addElementToList(arrayTask)
+    checkItem()
 
     if(taskName >= 0){
         validaInputs()
         return false
     }
 }
-arrayTask.push({taskName, status: 'Pendente'})
-console.log({arrayTask})
-addElementToList(arrayTask)
-checkitem()
 
 const addInput = document.getElementById('add-input-button')
 addInput.addEventListener("click",getInputs)
