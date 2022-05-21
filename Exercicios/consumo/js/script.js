@@ -4,8 +4,9 @@ const ok = JSON.parse(logado);
 
 if ( ok == true ){
 
+    // Recuperando dados do armazenamento local
     const dados = localStorage.getItem('consumo');
-    lista = JSON.parse(dados); //video 5
+    lista = JSON.parse(dados); 
 
     const formulario = document.querySelector('form');
     const tab = document.querySelector('.tabela');
@@ -45,20 +46,20 @@ if ( ok == true ){
         }
 
     });
-
+    // **********
+    // Função para validar as informações digitadas pelo usuário
+    // **********
     function validaInformacoes(produto, quantidade, valor){
 
-        // validar os campos
+        // validar campo a campo
         if ( produto.value == ''){
             alert('Produto não informado!');
             return false;
         }
-
         if (quantidade.value == ''){
             alert('Quantidade consumida não informada!');
             return false;
         }
-
         if ( valor.value == ''){
             alert('Valor do produto não foi informado!');
             return false;
@@ -67,7 +68,9 @@ if ( ok == true ){
         return true;   
 
     }
-
+    // **********
+    // Adicionar as informações digitadas pelo usuário na lista
+    // **********
     function adicionaNovoElemento(produto, quantidade, valor){
         
         let item = {
@@ -79,15 +82,21 @@ if ( ok == true ){
 
         lista.push(item);
 
+        // adiciona no DOM    
         adicionaNovasTags(item); 
         
         totaliza();
 
+        // Converte em formato JSON    
         const dadosJSON = JSON.stringify(lista);
+
+        // Armazena os Dados usando API LOCAL STORAGE
         localStorage.setItem('consumo', dadosJSON);
 
     }
-
+    // **********
+    // Adiciona as Tags a serem criadas com as informações digitadas pelo usuário
+    // **********
     function adicionaNovasTags(item){
 
         /*let td1 = document.createElement('td');
@@ -111,7 +120,9 @@ if ( ok == true ){
 
         tab.append(tr);
     }
-
+    // **********
+    // Cria as Tags as com as informações digitadas pelo usuário
+    // **********
     function criaTagTd(texto){
 
         let td = document.createElement('td');
@@ -121,7 +132,9 @@ if ( ok == true ){
 
         return td;
     }
-
+    // **********
+    // Cria a Tag botão
+    // **********
     function criaTabBotao(){
 
         let btn1 = document.createElement('button');
@@ -154,7 +167,9 @@ if ( ok == true ){
 
         return btn1;
     }
-
+    // **********
+    // Totalizando a conta
+    // **********
     function totaliza(){
 
         let total = 0;
@@ -170,7 +185,9 @@ if ( ok == true ){
             total = total + val_convertido;
 
         }
-
+    // **********
+    // Escrevendo na tela o total da conta
+    // **********
         let span_total = document.querySelector('#total');
         span_total.innerHTML = total;
 
