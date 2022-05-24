@@ -64,15 +64,23 @@ function addElementToList(arrayTask){
     document.querySelector('#task-input').value=" "
 }
 
-const checkItem = () => {
-    document.querySelectorAll('.check-btn').forEach(() =>{
-        addEventListener('click', (event) => {
-            event.target.previousElementSibling.className = 'todo-item checked'
-        })
-    })
 
 
-}
+
+const checkItem = (e) => {
+    const item = e.target
+    const itemid = item.id
+    const todoList = item.parentElement
+
+    
+//     document.querySelectorAll('.check-btn').forEach(() =>{
+//         addEventListener('click', (event) => {
+//             event.target.previousElementSibling.className = 'todo-item checked'
+//         })
+//     })
+
+
+// }
 
 
 // API WEB Storage
