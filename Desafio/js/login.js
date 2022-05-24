@@ -11,10 +11,6 @@ function recEventForm(evento){
     const input_login = form.querySelector('#login');
     const input_senha = form.querySelector('#senha');
 
-    paragraph.classname = 'message';
-
-    const text = document.querySelector('.message');
-
     if ( login == input_login.value && senha == input_senha.value ){
 
         // adicionar uma variavel na sessão que indique que o cara esta logado
@@ -26,11 +22,11 @@ function recEventForm(evento){
 
     }else{
         
-        paragraph.textcontent = 'Login ou senha inválido!';
+        paragraph.textContent = 'Login ou senha inválido!';
         paragraph.style.color = 'red';
         const div_campos = document.getElementById('campos');
-        div_campos.appendChild(paragraph)
-        sessionStorage.setItem("toDoList.logado", JSON.stringify(false))
+        div_campos.appendChild(paragraph);
+        sessionStorage.setItem("toDoList.logado", JSON.stringify(false));
         
     }
 };
