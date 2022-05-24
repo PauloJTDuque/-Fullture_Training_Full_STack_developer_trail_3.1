@@ -67,10 +67,10 @@ function addElementToList(arrayTask){
 
 
 
-const checkItem = (e) => {
-    const item = e.target
-    const itemid = item.id
-    const todoList = item.parentElement
+// const checkItem = (e) => {
+//     const item = e.target
+//     const itemid = item.id
+//     const todoList = item.parentElement
 
     
 //     document.querySelectorAll('.check-btn').forEach(() =>{
@@ -86,4 +86,3 @@ const checkItem = (e) => {
 // API WEB Storage
 
 
-console.log(taskInput)
