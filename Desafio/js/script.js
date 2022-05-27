@@ -1,91 +1,140 @@
-let arrayTask = []
+const logado = JSON.parse(sessionStorage.getItem("toDoList.logado"))
 
-const getInputs = (event) => {
+if(logado) {
 
-    event.preventDefault()
+    let arrayTask = []
 
-    let taskName = document.getElementById('task-input').value
-    arrayTask.push({taskName, status: 'Pendente'})
-    //console.log({arrayTask})
-    addElementToList(arrayTask)
-    checkItem()
+    const tasks = localStorage.getitem("toDoList.tasks")
+    let tasksList = document.querySelector("#todo-ul")
 
-    if(taskName >= 0){
-        validaInputs()
-        return false
+    if (tasks){
+        arrayTask = JSON.parse(tasks)
+        addElementToList(arrayTask)
     }
-}
 
-const addInput = document.getElementById('add-input-button')
-addInput.addEventListener("click",getInputs)
+    const getInputs = (event) => {
 
-const validaInputs = () => {
-    let taskName = document.getElementById('task-input').value
-    if (taskName === ' '){
-        alert("Preencha a Tarefa")
+        event.preventDefault()
+
+        let taskName = document.getElementById('task-input').value
+        if(taskName >= 0){
+            validaInputs()
+            return false
+        }
+        arrayTask.push({taskName, status: 'Pendente'})
+
+        localStorage.setItem("toDoList.tasks", JSON.stringify(arrayTask))
+
+        //console.log({arrayTask})
+        addElementToList(arrayTask)
+
+        checkItem()
+
     }
-}
 
-function addElementToList(array){
-    let tasklist = document.querySelector('#todo-ul')
-    tasklist.innerHTML = ``
-    array.map((elemento, indice) => tasklist.innerHTML +=
-        `
-        <div class="todo">
-                        <li class="todo-item">${elemento.taskName}</li>
-                        <button class="check-btn">${indice}<i class="fas fa-check" aria-hidden="true"></i></button>
-                        <button class="trash-btn">${indice}<i class="fas fa-trash" aria-hidden="true"></i></button>
-                    </div>
-        `
-    )
-    document.querySelector('#task-input').value=" "
-}
+    const addInput = document.getElementById('add-input-button')
+    addInput.addEventListener("click",getInputs)
 
-function checkItem () {
-
-    let checkBtn = document.querySelectorAll(".check-btn")
-
-    for (let i=0; i < checkBtn.length; i++) {
-        checkBtn[i].onclick = () => {
-            let whatDiv = checkBtn[i].parentElement;
-            whatDiv.setAttribute("class", "completed todo")
-            arrayTask[i].status = "Finalizada"  
-        }    
+    const validaInputs = () => {
+        let taskName = document.getElementById('task-input').value
+        if (taskName === ' '){
+            alert("Preencha a Tarefa")
+        }
     }
-}
-checkBtn = document.addEventListener("click", checkItem)
+    function addElementToList(array){
+        // let taskslist = document.querySelector('#todo-ul')
+        tasksList.innerHTML = ``
+        array.map((elemento, indice) => 
+        
+            {if(elemento.status === "FInalizada") {
+                tasksList.innerHTML +=
+            `
+                <div class="todo">
+                                <li class="todo-item">${elemento.taskName}</li>
+                                <button class="check-btn" id='${indice}'><i class="fas fa-check" aria-hidden="true"></i></button>
+                                <button class="trash-btn" id='${indice}'><i class="fas fa-trash" aria-hidden="true"></i></button>
+                            </div>
+                                     
+            `
+            } else{
+                tasksList.innerHTML +=
+                `
+                <div class="todo">
+                    <li class="todo-item">${elemento.taskName}</li>
+                        <button class="check-btn" id='${indice}'><i class="fas fa-check" aria-hidden="true"></i></button>
+                        <button class="trash-btn" id='${indice}'><i class="fas fa-trash" aria-hidden="true"></i></button>           
+                </div>
+                                     
+            ` 
+            }}
+        )
+        document.querySelector('#task-input').value=" "
+    }
 
-// function checkButton() {
+    const checkAndDeleteItem = (event)  => {
+        const item = event.target;
+        const itemId = itemId;
+        const todoList = item.parentElement;
 
-//     for (let i=0; i < checkBtn.length; i++) {
-//         checkBtn[i].onclick = () => {
-//             let whatDiv = checkBtn[i].parentElement;
-//             whatDiv.setAttribute("class", "completed todo")
-//             arrayTask[i].status = "Finalizada"  
-//         }    
-//     }    
-// }
-    
-// }
+        if(item.classList.value === 'check-btn') {
 
-const filterTasks = () => {
-    let comboFilter = document.getElementById("combo-filter")
-    let option = comboFilter.options[comboFilter.selectedIndex].text
+            todoList.classList.add('completed');
+            arrayTask[itemId].status = "Finalizada";
+            atualizaStorage()
+        }
+        if(item.classList.value === 'trash-btn') {
 
-    if(option === "Finalizadas") {
-        let tasksFilterFinalizadas = arrayTask.filter((task) => {
-            return task.status === 'Finalizada'
+            arrayTask.splice(itemId, 1);
+            addElementToList(arrayTask);
+            atualizaStorage();
+        }
+    }    
+    tasksList.addEventListener("click", checkAndDeleteItem)
+
+        // let checkBtn = document.querySelectorAll(".check-btn")
+
+        // for (let i=0; i < checkBtn.length; i++) {
+        //     checkBtn[i].onclick = () => {
+        //         let whatDiv = checkBtn[i].parentElement;
+        //         whatDiv.setAttribute("class", "completed todo")
+        //         arrayTask[i].status = "Finalizada"  
+        //     }    
+        // }
+    // }
+
+    // function checkButton() {
+
+    //     for (let i=0; i < checkBtn.length; i++) {
+    //         checkBtn[i].onclick = () => {
+    //             let whatDiv = checkBtn[i].parentElement;
+    //             whatDiv.setAttribute("class", "completed todo")
+    //             arrayTask[i].status = "Finalizada"  
+    //         }    
+    //     }    
+    // }
+        
+    // }
+
+    const filterTasks = () => {
+        let comboFilter = document.getElementById("combo-filter")
+        let option = comboFilter.options[comboFilter.selectedIndex].text
+
+        if(option === "Finalizadas") {
+            let tasksFilterFinalizadas = arrayTask.filter((task) => {
+                return task.status === 'Finalizada'
+            })
+            addElementToList(tasksFilterFinalizadas)
+        } else if (option === "Não Finalizadas") {
+            let tasksFilterPendentes = arrayTask.filter((task) => {
+            return task.status === 'Pendente'
         })
-        addElementToList(tasksFilterFinalizadas)
-    } else if (option === "Não Finalizadas") {
-        let tasksFilterPendentes = arrayTask.filter((task) => {
-        return task.status === 'Pendente'
-    })
-    addElementToList(tasksFilterPendentes)     
-    } else {
-    addElementToList(taskArray)     
+        addElementToList(tasksFilterPendentes)     
+        } else {
+        addElementToList(taskArray)     
+        }
     }
-}
 
-const filterToDo = document.querySelector("#combo-filter")
-filterToDo.addEventListener('click', filterTasks)
+    const filterToDo = document.querySelector("#combo-filter")
+    filterToDo.addEventListener('click', filterTasks)
+
+}
