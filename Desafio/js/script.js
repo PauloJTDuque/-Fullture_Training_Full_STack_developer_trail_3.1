@@ -1,140 +1,131 @@
 const logado = JSON.parse(sessionStorage.getItem("toDoList.logado"))
 
-if(logado) {
+if (!logado) {
+    window.location = "login.html"
+}
+let arrayTask = []
 
-    let arrayTask = []
+const tasks = localStorage.getItem("toDoList.tasks")
+let tasksList = document.querySelector("#todo-ul")
 
-    const tasks = localStorage.getitem("toDoList.tasks")
-    let tasksList = document.querySelector("#todo-ul")
+if (tasks) {
+    arrayTask = JSON.parse(tasks)
+    addElementToList(arrayTask)
+}
 
-    if (tasks){
-        arrayTask = JSON.parse(tasks)
-        addElementToList(arrayTask)
+const getInputs = (event) => {
+
+    event.preventDefault()
+
+    let taskName = document.getElementById('task-input').value
+    if (taskName >= 0) {
+        validaInputs()
+        return false
     }
+    arrayTask.push({ taskName, status: 'Pendente' });
+    console.log(arrayTask)
 
-    const getInputs = (event) => {
+    localStorage.setItem("toDoList.tasks", JSON.stringify(arrayTask))
 
-        event.preventDefault()
+    //console.log({arrayTask})
+    addElementToList(arrayTask)
 
-        let taskName = document.getElementById('task-input').value
-        if(taskName >= 0){
-            validaInputs()
-            return false
-        }
-        arrayTask.push({taskName, status: 'Pendente'})
+    // checkItem()
 
-        localStorage.setItem("toDoList.tasks", JSON.stringify(arrayTask))
+}
 
-        //console.log({arrayTask})
-        addElementToList(arrayTask)
+const addInput = document.getElementById('add-input-button')
+addInput.addEventListener("click", getInputs)
 
-        checkItem()
-
+const validaInputs = () => {
+    let taskName = document.getElementById('task-input').value
+    if (taskName === ' ') {
+        alert("Preencha a Tarefa")
     }
+}
 
-    const addInput = document.getElementById('add-input-button')
-    addInput.addEventListener("click",getInputs)
-
-    const validaInputs = () => {
-        let taskName = document.getElementById('task-input').value
-        if (taskName === ' '){
-            alert("Preencha a Tarefa")
-        }
-    }
-    function addElementToList(array){
-        // let taskslist = document.querySelector('#todo-ul')
-        tasksList.innerHTML = ``
-        array.map((elemento, indice) => 
-        
-            {if(elemento.status === "FInalizada") {
+function addElementToList(array) {
+    tasksList.innerHTML = ``
+    array.map((elemento, indice) =>
+        {if (elemento.status === "Finalizada") {
                 tasksList.innerHTML +=
-            `
-                <div class="todo">
+                    `
+                <div class="todo completed">
                                 <li class="todo-item">${elemento.taskName}</li>
                                 <button class="check-btn" id='${indice}'><i class="fas fa-check" aria-hidden="true"></i></button>
                                 <button class="trash-btn" id='${indice}'><i class="fas fa-trash" aria-hidden="true"></i></button>
                             </div>
                                      
             `
-            } else{
+            } else {
                 tasksList.innerHTML +=
-                `
+                    `
                 <div class="todo">
                     <li class="todo-item">${elemento.taskName}</li>
                         <button class="check-btn" id='${indice}'><i class="fas fa-check" aria-hidden="true"></i></button>
                         <button class="trash-btn" id='${indice}'><i class="fas fa-trash" aria-hidden="true"></i></button>           
                 </div>
                                      
-            ` 
-            }}
-        )
-        document.querySelector('#task-input').value=" "
+            `
+            }
+        }
+    )
+    console.log(arrayTask)
+    document.querySelector('#task-input').value = " "
+}
+
+const checkAndDeleteItem = (event) => {
+
+    const item = event.target;
+    console.log(item)
+    console.log(arrayTask)
+    const itemId = item.id;
+    const todoList = item.parentElement;
+
+    if (item.classList.value === 'check-btn') {
+
+        todoList.classList.add('completed');
+        arrayTask[itemId].status = "Finalizada";
+        atualizaStorage();
     }
+    if (item.classList.value === 'trash-btn') {
 
-    const checkAndDeleteItem = (event)  => {
-        const item = event.target;
-        const itemId = itemId;
-        const todoList = item.parentElement;
+        arrayTask.splice(itemId, 1);
+        addElementToList(arrayTask);
+        atualizaStorage();
+    }
+}
 
-        if(item.classList.value === 'check-btn') {
+tasksList.addEventListener('click', checkAndDeleteItem);
 
-            todoList.classList.add('completed');
-            arrayTask[itemId].status = "Finalizada";
-            atualizaStorage()
-        }
-        if(item.classList.value === 'trash-btn') {
+// Fazendo a leitura do combo filter no elemento select 
+const comboFilter = document.getElementById("combo-filter")
 
-            arrayTask.splice(itemId, 1);
-            addElementToList(arrayTask);
-            atualizaStorage();
-        }
-    }    
-    tasksList.addEventListener("click", checkAndDeleteItem)
+const filterTasks = () => {  
 
-        // let checkBtn = document.querySelectorAll(".check-btn")
+    // Carregando em "option" o texto da opção selecionada pelo usuário usando o método Option
+    let option = comboFilter.options[comboFilter.selectedIndex].text
 
-        // for (let i=0; i < checkBtn.length; i++) {
-        //     checkBtn[i].onclick = () => {
-        //         let whatDiv = checkBtn[i].parentElement;
-        //         whatDiv.setAttribute("class", "completed todo")
-        //         arrayTask[i].status = "Finalizada"  
-        //     }    
-        // }
-    // }
-
-    // function checkButton() {
-
-    //     for (let i=0; i < checkBtn.length; i++) {
-    //         checkBtn[i].onclick = () => {
-    //             let whatDiv = checkBtn[i].parentElement;
-    //             whatDiv.setAttribute("class", "completed todo")
-    //             arrayTask[i].status = "Finalizada"  
-    //         }    
-    //     }    
-    // }
-        
-    // }
-
-    const filterTasks = () => {
-        let comboFilter = document.getElementById("combo-filter")
-        let option = comboFilter.options[comboFilter.selectedIndex].text
-
-        if(option === "Finalizadas") {
-            let tasksFilterFinalizadas = arrayTask.filter((task) => {
-                return task.status === 'Finalizada'
-            })
-            addElementToList(tasksFilterFinalizadas)
-        } else if (option === "Não Finalizadas") {
+   // Verificando a opção selecionada e ajustando a tela
+    if (option === "Finalizadas") {
+        let tasksFilterFinalizadas = arrayTask.filter((task) => {
+            return task.status === 'Finalizada'
+        })
+        localStorage.setItem("toDoList.tasksFinalizadas", JSON.stringify(tasksFilterFinalizadas))
+        addElementToList(tasksFilterFinalizadas)
+    } else if (option === "Não Finalizadas") {
             let tasksFilterPendentes = arrayTask.filter((task) => {
             return task.status === 'Pendente'
         })
-        addElementToList(tasksFilterPendentes)     
-        } else {
-        addElementToList(taskArray)     
-        }
+        localStorage.setItem("toDoList.tasksPendentes", JSON.stringify(tasksFilterPendentes))
+        addElementToList(tasksFilterPendentes)
+    } else {
+        addElementToList(arrayTask)
     }
+}
 
-    const filterToDo = document.querySelector("#combo-filter")
-    filterToDo.addEventListener('click', filterTasks)
+comboFilter.addEventListener('click', filterTasks)
 
+const atualizaStorage = () => {
+    localStorage.setItem("toDoList.tasks", JSON.stringify(arrayTask))
 }
