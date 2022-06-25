@@ -6,5 +6,4 @@ form.addEventListener("submit", (evento) => {
     const tema = form.querySelector("#tema")
     console.log(tema.value)
 })
-
 console.log(tema.value)
