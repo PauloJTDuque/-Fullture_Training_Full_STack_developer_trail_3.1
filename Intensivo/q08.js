@@ -31,6 +31,12 @@ const addTr = (obj) => {
     diaTd.innerHTML = obj.dia
 
     table.appendChild(linha)
+
+    // let p = document.createElement("p")
+    // p.innerHTML = `Tema: ${obj.tema} . Dia: ${obj.dia}.` - criando um parágrafo
+    // p.className = "paragrafo1" - criando um parágrafo e atribuindo uma classe
+    // document.body.appendChild(p)
+    
 }
 
 form.addEventListener("submit", submissao)

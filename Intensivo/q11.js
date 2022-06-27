@@ -27,7 +27,7 @@ const temasLength2 = () => {
 }
 
 const mapTable = () =>{
-    lista.map((obj) => addTr(obj))
+    lista.map((obj) => addTr(obj)) //Percorre o vetor com Map e chama a função para adicionar cada elemento.
 }
 
 
