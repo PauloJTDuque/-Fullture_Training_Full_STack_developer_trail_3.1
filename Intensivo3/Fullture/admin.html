@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+
+    <script src="js/storage.js" defer></script>
+    <script src="js/admin.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/admin.css" />
+</head>
+<body>
+    <h3>Lista de produtos / serviços</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Imagem</th>
+                <th>Link</th>
+                <th>Tag</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaProdutosBody">
+
+        </tbody>
+    </table>
+    <p>Adicionar:</p>
+    <form>
+        <input type="text" placeholder="título" id="input_titulo" />
+        <input type="text" placeholder="caminho imagem no servidor" id="input_img" />
+        <input type="text" placeholder="link" id="input_link">
+        <input type="text" placeholder="tag" id="input_tag">
+        <input type="submit" value="OK">
+
+    </form>
+</body>
+</html>

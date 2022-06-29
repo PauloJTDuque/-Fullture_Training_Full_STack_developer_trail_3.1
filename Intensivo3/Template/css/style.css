@@ -1,0 +1,36 @@
+body{
+    justify-items: center;
+}
+
+.container{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    grid-template-rows: auto;
+    justify-items: center;
+    row-gap: 30px;
+}
+
+.produto{
+    margin: 5px;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 300px;
+    grid-template-rows: auto 100px auto;
+    justify-items: center;
+    row-gap: 25px;
+}
+
+.produto span{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.produto a{
+    text-decoration: none;
+    color: rgb(61, 77, 92);
+}
+
+.produto img{
+    max-height: 100px;
+}
